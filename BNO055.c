@@ -8,8 +8,8 @@
 
 void writeReg_BNO(uint8_t reg, uint8_t value)
 {
-	if (startI2C()) {stoplaser();}									//mi restituisce 1 se lo start NON è avvenuto correttamente
-	if (sendI2Claser(slave|TW_WRITE)) {stoplaser();}				////mi restituisce 1 se la trasmissione NON è avvenuta correttamente
+	if (startI2C()) {stoplaser();}									//mi restituisce 1 se lo start NON Ã¨ avvenuto correttamente
+	if (sendI2Claser(slave|TW_WRITE)) {stoplaser();}				////mi restituisce 1 se la trasmissione NON Ã¨ avvenuta correttamente
 	if (sendI2Claser(reg)) {stoplaser();}
 	if (sendI2Claser(value)) {stoplaser();}
 	stoplaser();
@@ -30,7 +30,11 @@ uint8_t readReg_BNO(uint8_t reg)
 	if (value>>8) {stoplaser();}
 	return value;
 }
-
+void setMode (uint8_t mode)
+{
+	writeReg_BNO(BNO055_OPR_MODE_ADDR, _mode);
+	_delay_ms(30);
+}
 int BNO_begin()
 {
 	
