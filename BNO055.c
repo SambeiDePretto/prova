@@ -37,11 +37,11 @@ void setMode (uint8_t mode)
 }
 int BNO_begin()
 {
-	  uint8_t id = read8(BNO055_CHIP_ID_ADDR);
+	  uint8_t id = readRegBNO(BNO055_CHIP_ID_ADDR);
 	  if(id != BNO055_ID)
 	  {
 	    _delay_ms(1000); 
-	    id = read8(BNO055_CHIP_ID_ADDR);
+	    id = readRegBNO(BNO055_CHIP_ID_ADDR);
 	    if(id != BNO055_ID)
 	    {
 	      Serial_print("errore, nessun dispositivo collegato");
