@@ -14,67 +14,71 @@
 #include "I2C.h"
 
 //#define ADDRESS_BNO055	
+#define BNO055_ADDRESS_A                                        0x28
+#define BNO055_ADDRESS_B                                        0x29
+#define BNO055_ID                                               0xA0
 
-#define BNO055_PAGE_ID_ADDR                                     = 0X07,
+#define NUM_BNO055_OFFSET_REGISTERS (22)
+#define BNO055_PAGE_ID_ADDR                                     0x07
 
 /* PAGE0 REGISTER DEFINITION START*/
-#define BNO055_CHIP_ID_ADDR                                     = 0x00,
-#define BNO055_ACCEL_REV_ID_ADDR                                = 0x01,
-#define BNO055_MAG_REV_ID_ADDR                                  = 0x02,
-#define BNO055_GYRO_REV_ID_ADDR                                 = 0x03,
-#define BNO055_SW_REV_ID_LSB_ADDR                               = 0x04,
-#define BNO055_SW_REV_ID_MSB_ADDR                               = 0x05,
-#define BNO055_BL_REV_ID_ADDR                                   = 0X06,
+#define BNO055_CHIP_ID_ADDR                                     0x00
+#define BNO055_ACCEL_REV_ID_ADDR                                0x01
+#define BNO055_MAG_REV_ID_ADDR                                  0x02
+#define BNO055_GYRO_REV_ID_ADDR                                 0x03
+#define BNO055_SW_REV_ID_LSB_ADDR                               0x04
+#define BNO055_SW_REV_ID_MSB_ADDR                               0x05
+#define BNO055_BL_REV_ID_ADDR                                   0x06
 
 /* Accel data register */
-#define BNO055_ACCEL_DATA_X_LSB_ADDR                            = 0X08,
-#define BNO055_ACCEL_DATA_X_MSB_ADDR                            = 0X09,
-#define BNO055_ACCEL_DATA_Y_LSB_ADDR                            = 0X0A,
-#define BNO055_ACCEL_DATA_Y_MSB_ADDR                            = 0X0B,
-#define BNO055_ACCEL_DATA_Z_LSB_ADDR                            = 0X0C,
-#define BNO055_ACCEL_DATA_Z_MSB_ADDR                            = 0X0D,
+#define BNO055_ACCEL_DATA_X_LSB_ADDR                            0x08
+#define BNO055_ACCEL_DATA_X_MSB_ADDR                            0x09
+#define BNO055_ACCEL_DATA_Y_LSB_ADDR                            0x0A
+#define BNO055_ACCEL_DATA_Y_MSB_ADDR                            0x0B
+#define BNO055_ACCEL_DATA_Z_LSB_ADDR                            0x0C
+#define BNO055_ACCEL_DATA_Z_MSB_ADDR                            0x0D
 
 /* Mag data register */
-#define BNO055_MAG_DATA_X_LSB_ADDR                              = 0X0E,
-#define BNO055_MAG_DATA_X_MSB_ADDR                              = 0X0F,
-#define BNO055_MAG_DATA_Y_LSB_ADDR                              = 0X10,
-#define BNO055_MAG_DATA_Y_MSB_ADDR                              = 0X11,
-#define BNO055_MAG_DATA_Z_LSB_ADDR                              = 0X12,
-#define BNO055_MAG_DATA_Z_MSB_ADDR                              = 0X13,
+#define BNO055_MAG_DATA_X_LSB_ADDR                              0x0E
+#define BNO055_MAG_DATA_X_MSB_ADDR                              0x0F
+#define BNO055_MAG_DATA_Y_LSB_ADDR                              0x10
+#define BNO055_MAG_DATA_Y_MSB_ADDR                              0x11
+#define BNO055_MAG_DATA_Z_LSB_ADDR                              0x12
+#define BNO055_MAG_DATA_Z_MSB_ADDR                              0x13
 
 /* Gyro data registers */
-#define BNO055_GYRO_DATA_X_LSB_ADDR                             = 0X14,
-#define BNO055_GYRO_DATA_X_MSB_ADDR                             = 0X15,
-#define BNO055_GYRO_DATA_Y_LSB_ADDR                             = 0X16,
-#define BNO055_GYRO_DATA_Y_MSB_ADDR                             = 0X17,
-#define BNO055_GYRO_DATA_Z_LSB_ADDR                             = 0X18,
-#define BNO055_GYRO_DATA_Z_MSB_ADDR                             = 0X19,
+#define BNO055_GYRO_DATA_X_LSB_ADDR                             0x14
+#define BNO055_GYRO_DATA_X_MSB_ADDR                             0x15
+#define BNO055_GYRO_DATA_Y_LSB_ADDR                             0x16
+#define BNO055_GYRO_DATA_Y_MSB_ADDR                             0x17
+#define BNO055_GYRO_DATA_Z_LSB_ADDR                             0x18
+#define BNO055_GYRO_DATA_Z_MSB_ADDR                             0x19
 
 /* Euler data registers */
-#define BNO055_EULER_H_LSB_ADDR                                 = 0X1A,
-#define BNO055_EULER_H_MSB_ADDR                                 = 0X1B,
-#define BNO055_EULER_R_LSB_ADDR                                 = 0X1C,
-#define BNO055_EULER_R_MSB_ADDR                                 = 0X1D,
-#define BNO055_EULER_P_LSB_ADDR                                 = 0X1E,
-#define BNO055_EULER_P_MSB_ADDR                                 = 0X1F,
+#define BNO055_EULER_H_LSB_ADDR                                 0x1A
+#define BNO055_EULER_H_MSB_ADDR                                 0x1B
+#define BNO055_EULER_R_LSB_ADDR                                 0x1C
+#define BNO055_EULER_R_MSB_ADDR                                 0x1D
+#define BNO055_EULER_P_LSB_ADDR                                 0x1E
+#define BNO055_EULER_P_MSB_ADDR                                 0x1F
 
 /* Quaternion data registers */
-#define BNO055_QUATERNION_DATA_W_LSB_ADDR                       = 0X20,
-#define BNO055_QUATERNION_DATA_W_MSB_ADDR                       = 0X21,
-#define BNO055_QUATERNION_DATA_X_LSB_ADDR                       = 0X22,
-#define BNO055_QUATERNION_DATA_X_MSB_ADDR                       = 0X23,
-#define BNO055_QUATERNION_DATA_Y_LSB_ADDR                       = 0X24,
-#define BNO055_QUATERNION_DATA_Y_MSB_ADDR                       = 0X25,
-#define BNO055_QUATERNION_DATA_Z_LSB_ADDR                       = 0X26,
-#define BNO055_QUATERNION_DATA_Z_MSB_ADDR                       = 0X27,
+#define BNO055_QUATERNION_DATA_W_LSB_ADDR                       0x20
+#define BNO055_QUATERNION_DATA_W_MSB_ADDR                       0x21
+#define BNO055_QUATERNION_DATA_X_LSB_ADDR                       0x22
+#define BNO055_QUATERNION_DATA_X_MSB_ADDR                       0x23
+#define BNO055_QUATERNION_DATA_Y_LSB_ADDR                       0x24
+#define BNO055_QUATERNION_DATA_Y_MSB_ADDR                       0x25
+#define BNO055_QUATERNION_DATA_Z_LSB_ADDR                       0x26
+#define BNO055_QUATERNION_DATA_Z_MSB_ADDR                       0x27
 
 /* Linear acceleration data registers */
-#define BNO055_LINEAR_ACCEL_DATA_X_LSB_ADDR                     = 0X28,
-#define BNO055_LINEAR_ACCEL_DATA_X_MSB_ADDR                     = 0X29,
-#define BNO055_LINEAR_ACCEL_DATA_Y_LSB_ADDR                     = 0X2A,
-#define BNO055_LINEAR_ACCEL_DATA_Y_MSB_ADDR                     = 0X2B,
-#define BNO055_LINEAR_ACCEL_DATA_Z_LSB_ADDR                     = 0X2C,
-#define BNO055_LINEAR_ACCEL_DATA_Z_MSB_ADDR                     = 0X2D,
+#define BNO055_LINEAR_ACCEL_DATA_X_LSB_ADDR                     0x28
+#define BNO055_LINEAR_ACCEL_DATA_X_MSB_ADDR                     0x29
+#define BNO055_LINEAR_ACCEL_DATA_Y_LSB_ADDR                     0x2A
+#define BNO055_LINEAR_ACCEL_DATA_Y_MSB_ADDR                     0x2B
+#define BNO055_LINEAR_ACCEL_DATA_Z_LSB_ADDR                     0x2C
+#define BNO055_LINEAR_ACCEL_DATA_Z_MSB_ADDR                     0x2D
 
 /* Gravity data registers */
 #define BNO055_GRAVITY_DATA_X_LSB_ADDR                          0x2E
@@ -182,12 +186,12 @@
 
 
 
-uint8_t slave=ADDRESS_BNO055;
+uint8_t slave=BNO055_ADDRESS_A ;
 
-void writeReg_BNO();
-uint8_t readReg_BNO();
+void writeReg_BNO(uint8_t reg, uint8_t value);
+uint8_t readReg_BNO(uint8_t reg);
 
 int BNO_begin();
-void setMode();
+void setMode(uint8_t mode);
 
 #endif /* BNO055_H_ */
