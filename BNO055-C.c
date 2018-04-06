@@ -11,7 +11,6 @@
 #include "I2C.h"
 #include "Seriale.h"
 #include "BNO055.h"
-#include "sdbhkdjal"
 
 int main(void)
 {
