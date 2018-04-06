@@ -14,8 +14,9 @@
 
 int main(void)
 {
+    init_I2C();
     while(1)
     {
-        //TODO:: Please write your application code 
+        BNO_begin(); 
     }
 }
