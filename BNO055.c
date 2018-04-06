@@ -9,7 +9,7 @@
 void writeReg_BNO(uint8_t reg, uint8_t value)
 {
 	if (startI2C()) {stoplaser();}									//mi restituisce 1 se lo start NON è avvenuto correttamente
-	if (sendI2Claser(slave|TW_WRITE)) {stoplaser();}				////mi restituisce 1 se la trasmissione NON è avvenuta correttamente
+	if (sendI2Claser(BNO055_ADDRESS_B|TW_WRITE)) {stoplaser();}				////mi restituisce 1 se la trasmissione NON è avvenuta correttamente
 	if (sendI2Claser(reg)) {stoplaser();}
 	if (sendI2Claser(value)) {stoplaser();}
 	stoplaser();
@@ -19,11 +19,11 @@ void writeReg_BNO(uint8_t reg, uint8_t value)
 uint8_t readReg_BNO(uint8_t reg)
 {
 	if (startI2C()) {stoplaser();}
-	if (sendI2Claser(slave|TW_WRITE)) {stoplaser();}
+	if (sendI2Claser(BNO055_ADDRESS_B|TW_WRITE)) {stoplaser();}
 	if (sendI2Claser(reg)) {stoplaser();}
 	//stop();
 	startI2C();
-	if (sendI2Claser(slave|TW_READ)) {stoplaser();}
+	if (sendI2Claser(BNO055_ADDRESS_B|TW_READ)) {stoplaser();}
 	uint16_t value=readNACKlaser();
 	stoplaser();
 	_delay_ms(5);
@@ -32,7 +32,7 @@ uint8_t readReg_BNO(uint8_t reg)
 }
 void setMode (uint8_t mode)
 {
-	writeReg_BNO(BNO055_OPR_MODE_ADDR, _mode);//0x3D
+	writeReg_BNO(BNO055_OPR_MODE_ADDR, mode);//0x3D
 	_delay_ms(30);
 }
 int BNO_begin()
